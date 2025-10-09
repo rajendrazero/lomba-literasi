@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="id">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Booklet — Gebyar Bahasa & Sastra 2025</title>
+        <link rel="stylesheet" href="style.css" type="text/css" media="all" />
+    </head>
+    <body>
+        <div class="container">
+            <!-- HEADER -->
+            <header>
+                <div class="logo" aria-hidden>
+                    <img style="width: 100%;" src="logo-literasi.jpeg" alt="logo literasi" />
+                </div>
+
+                <div class="title">
+                    <h1>Gebyar Bahasa & Sastra — Lomba 4</h1>
+                    <p class="lead">
+                        Tema:
+                        <strong
+                            >Bahasa Indonesia Berdaulat, Indonesia Maju</strong
+                        >
+                        <br>Booklet Peraturan Perlombaan
+                    </p>
+                </div>
+
+                <div style="flex: 1"></div>
+
+                <div style="display: flex; flex-direction: column; gap: 8px">
+                    <button class="btn primary" onclick="window.print()">
+                        Cetak / Simpan PDF
+                    </button>
+                    <button class="btn" id="downloadJson">
+                        Download Info (JSON)
+                    </button>
+                </div>
+            </header>
+
+            <!-- HERO -->
+            <div class="hero" style="margin-top: 18px">
+                <div
+                    class="card summary"
+                    role="region"
+                    aria-label="Ringkasan Singkat"
+                >
+                    <div
+                        style="
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        "
+                    >
+                        <div>
+                            <strong>Peraturan & Informasi Umum</strong>
+                            <div class="muted">
+                                Informasi penting perlombaan serta pendaftaran silahkan tekan
+                            </div>
+                        </div>
+                        <div class="muted" style="font-size: 13px">
+                            Update: 8 Okt 2025
+                        </div>
+                    </div>
+
+                    <div class="kategories" role="list">
+                        <div
+                            class="kat"
+                            role="listitem"
+                            tabindex="0"
+                            aria-label="Baca Puisi"
+                            data-modal="modal-puisi"
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden>
+                                <circle cx="12" cy="8" r="3" fill="#cfe8ff" />
+                                <rect
+                                    x="4"
+                                    y="14"
+                                    width="16"
+                                    height="6"
+                                    rx="2"
+                                    fill="#e8f3ff"
+                                />
+                            </svg>
+                            <div>
+                                <h3>Baca Puisi (Individu)</h3>
+                                <div class="muted">
+                                    Tema: Bahasa Indonesia Berdaulat, Indonesia
+                                    Maju • Boleh teks & aksesoris
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="kat"
+                            role="listitem"
+                            tabindex="0"
+                            aria-label="Baca Berita (Video)"
+                            data-modal="modal-berita"
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden>
+                                <rect
+                                    x="3"
+                                    y="4"
+                                    width="18"
+                                    height="14"
+                                    rx="2"
+                                    fill="#fff4f4"
+                                    stroke="#ffdede"
+                                />
+                            </svg>
+                            <div>
+                                <h3>Baca Berita (Video)</h3>
+                                <div class="muted">
+                                    Durasi ≤ 3 menit • Batas: 20 Okt 2025 •
+                                    Berita aktual
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="kat"
+                            role="listitem"
+                            tabindex="0"
+                            aria-label="Drama (Kelompok)"
+                            data-modal="modal-drama"
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden>
+                                <path
+                                    d="M3 20h18v-2a6 6 0 0 0-6-6H9a6 6 0 0 0-6 6z"
+                                    fill="#f8f0ff"
+                                />
+                            </svg>
+                            <div>
+                                <h3>Drama (Kelompok)</h3>
+                                <div class="muted">
+                                    Max 10 orang • Naskah: 15 Okt 2025 • Durasi
+                                    15–20 menit
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="kat"
+                            role="listitem"
+                            tabindex="0"
+                            aria-label="Story Telling (Individu)"
+                            data-modal="modal-story"
+                        >
+                            <svg viewBox="0 0 24 24" aria-hidden>
+                                <path d="M4 6h16v12H4z" fill="#fff7f0" />
+                            </svg>
+                            <div>
+                                <h3>Story Telling (Individu)</h3>
+                                <div class="muted">
+                                    Durasi 5–7 menit • Tidak boleh pakai teks •
+                                    Monolog
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAIN -->
+            <main>
+                <section id="rules" class="grid">
+                    <div class="card rules" aria-labelledby="peraturanTitle">
+                        <h2 id="peraturanTitle">Peraturan & Deadline</h2>
+                        <ol style="padding-left: 18px">
+                            <li>
+                                Pendaftaran <strong>09-18 Oktober 2025</strong>
+                            </li>
+                            <li>
+                                Technical Meeting <strong>20 Oktober 2025</strong>
+                            </li>
+                            <li>
+                                Baca Berita (Video): Pengumpulan hingga
+                                <strong>20 Oktober 2025</strong>.
+                            </li>
+                            <li>
+                                Drama: Pengumpulan naskah paling lambat
+                                <strong>15 Oktober 2025</strong>.
+                            </li>
+                            <li>
+                                Pilihan puisi untuk kategori Puisi: 5 puisi
+                                bertema Sumpah Pemuda (lihat daftar).
+                            </li>
+                            <li>
+                                Pelaksanaan & Penilaian Lomba <strong>23-24 Oktober 2025</strong> 
+                            </li>
+                            <li>
+                                Pengumuman Pemenang & Pengambilan Hadiah <strong>28 Oktober 2025</strong>
+                            </li>
+                        </ol>
+
+                        <div style="margin-top: 12px">
+                            <strong>Hadiah Uang Tunai & Sertifikat</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="puisi">
+                    <div class="card" aria-labelledby="puisiTitle">
+                        <h2 id="puisiTitle">
+                            Pilihan Puisi (Untuk Baca Puisi)
+                        </h2>
+                        <div class="muted">
+                            Peserta Puisi wajib memilih 1 dari 5 puisi bertema
+                            Sumpah Pemuda.
+                        </div>
+
+                        <div class="puisi-list" style="margin-top: 12px">
+                            <div class="puisi">
+                                <strong>Bahasa Indonesia</strong> — Taufiq
+                                Ismail<br /><span class="muted"
+                                    >(sumber: Matahari-Matahari Kecilku)</span
+                                >
+                                <pre>
+‎Ketika kami lapar, kami berkata: 
+‎“Kami lapar.”
+‎Dan kami pun makan.
+‎
+‎Ketika kami sedih, kami berkata:
+‎“Kami sedih.”
+‎Dan kami pun menangis.
+‎
+‎Ketika kami gembira, kami berkata:
+‎“Kami gembira.”
+‎Dan kami pun tertawa.
+‎
+‎Dan dengan bahasa itu pula
+‎Kami berjanji,
+‎Kami bersumpah,
+‎Kami berdoa,
+‎Kami berjuang.
+‎
+‎Bahasa Indonesia —
+‎bahasa persatuan,
+‎bahasa cinta tanah air,
+‎bahasa kebanggaan bangsa merdeka.</pre
+                                >
+                            </div>
+                            <div class="puisi">
+                                <strong>Doa untuk Bahasa Ibu</strong> — W.S.
+                                Rendra<br /><span class="muted"
+                                    >(sumber: Potret Pembangunan dalam
+                                    Puisi)</span
+                                >
+                                <pre>
+‎Tuhan,
+‎ampuni bila lidahku
+‎mulai asing kepada bahasa ibuku.
+‎
+‎Bahasa yang dulu kukenal dari nyanyian
+‎di buaian,
+‎dari dongeng di senja hari,
+‎dari nasihat seorang ibu
+‎di antara padi dan doa.
+‎
+‎Tuhan,
+‎jangan biarkan aku kehilangan kata-kata
+‎yang tumbuh dari tanah negeriku sendiri.
+‎
+‎Sebab di sanalah jiwaku berpijak,
+‎di sanalah ingatanku berakar.
+‎
+‎Lindungilah bahasa ibuku,
+‎agar anak-cucuku kelak
+‎tetap dapat menyebut “cinta”,
+‎dengan rasa yang sama seperti aku.
+          </pre
+                                >
+                            </div>
+                            <div class="puisi">
+                                <strong>Sumpah Pemuda</strong> — Chairil Anwar
+                                (versi adaptasi)<br /><span class="muted"
+                                    >(sering dipakai di lomba nasional)</span
+                                >
+                                <pre>
+Kami putra dan putri Indonesia
+‎mengaku bertumpah darah yang satu,
+‎tanah air Indonesia.
+‎
+‎Kami putra dan putri Indonesia
+‎mengaku berbangsa yang satu,
+‎bangsa Indonesia.
+‎
+‎Kami putra dan putri Indonesia
+‎menjunjung bahasa persatuan,
+‎bahasa Indonesia.
+‎
+‎Dalam denyut nadi kami mengalir
+‎semangat persatuan yang takkan pudar.
+‎
+‎Kami bersumpah:
+‎menjaga bahasa, menjaga bangsa,
+‎dengan darah dan nyawa kami.
+          </pre
+                                >
+                            </div>
+                            <div class="puisi">
+                                <strong>Bahasa</strong> — Sapardi Djoko
+                                Damono<br /><span class="muted"
+                                    >(sumber: Hujan Bulan Juni)</span
+                                >
+                                <pre>
+Bahasa adalah kita,
+‎yang menyusun dunia dengan kata,
+‎lalu memberinya nama,
+‎agar tak hilang dari ingatan.
+‎
+‎Bahasa adalah cinta,
+‎yang mengikat manusia
+‎dalam pengertian yang sama,
+‎dalam kesetiaan pada makna.
+‎
+‎Maka jagalah ia,
+‎sebab di dalam bahasa
+‎kita menulis sejarah bangsa,
+‎dan mendirikan rumah bagi jiwa kita sendiri.
+          </pre
+                                >
+                            </div>
+                            <div class="puisi">
+                                <strong>Negeriku</strong> — Taufiq Ismail<br /><span
+                                    class="muted"
+                                    >(sumber: Malu (Aku) Jadi Orang
+                                    Indonesia)</span
+                                >
+                                <pre>
+Negeriku,
+‎aku melihat wajahmu di sawah yang hijau,
+‎di laut yang luas,
+‎di langit yang teduh.
+‎
+‎Aku mendengar suaramu
+‎di desir angin yang membawa kabar musim,
+‎di tawa anak-anak sekolah,
+‎di lagu perjuangan yang tak pernah padam.
+‎
+‎Negeriku,
+‎meski badai datang dan gelombang mengguncang,
+‎aku takkan meninggalkan namamu.
+‎
+‎Sebab di tubuhku mengalir darahmu,
+‎dan di nadiku berdenyut cita-citamu.
+          </pre
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="contact">
+    <div class="card" aria-labelledby="contactTitle">
+        <h2 id="contactTitle">Kontak Panitia</h2>
+        <p class="muted">
+            Jika ada pertanyaan teknis atau administrasi,
+            hubungi PJ sesuai kategori.
+        </p>
+        <ul>
+            <li>
+                Najwa Rizky (Baca Puisi) <br />
+                — <a href="https://wa.me/6287839519486" target="_blank" rel="noopener">+62 878-3951-9486</a>
+            </li>
+            <li>
+                Farhan Conan (Baca Berita) <br />
+                — <a href="https://wa.me/6282297456854" target="_blank" rel="noopener">+62 822-9745-6854</a>
+            </li>
+            <li>
+                Dhiny Alifia (Drama) <br />
+                — <a href="https://wa.me/6281265669899" target="_blank" rel="noopener">+62 812-6566-9899</a>
+            </li>
+            <li>
+                Agha Alfian Hakim (Story Telling) <br />
+                — <a href="https://wa.me/6289531281849" target="_blank" rel="noopener">+62 895-3128-1849</a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+            </main>
+
+            <footer>© Gebyar Bahasa & Sastra SMKN-9 Medan</footer>
+        </div>
+
+        <!-- MODALS -->
+        <div
+            id="modal-backdrop"
+            class="modal-backdrop"
+            aria-hidden="true"
+            role="dialog"
+            aria-modal="true"
+        >
+            <!-- Puisi -->
+            <div
+                id="modal-puisi"
+                class="modal"
+                role="document"
+                aria-labelledby="modalPuisiTitle"
+                tabindex="-1"
+            >
+                <div class="modal-header">
+                    <h3 id="modalPuisiTitle" class="modal-title">
+                        Baca Puisi — Syarat Lengkap
+                    </h3>
+                    <div>
+                        <button class="close-btn" onclick="closeModal()">
+                            Tutup ✕
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Ketentuan:</strong></p>
+                    <ul>
+                        <li>Kategori individu.</li>
+                        <li>Peserta boleh menggunakan teks saat pembacaan.</li>
+                        <li>
+                            Boleh menggunakan aksesoris pendukung yang relevan
+                            dengan puisi.
+                        </li>
+                        <li>
+                            Tema yang wajib diangkat:
+                            <em>Bahasa Indonesia Berdaulat, Indonesia Maju</em>.
+                        </li>
+                    </ul>
+                    <p class="modal-note">
+                        Pilih 1 puisi dari daftar pilihan puisi yang tertera di
+                        Booklet.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button
+  class="btn secondary daftar-btn"
+  data-category="Puisi"
+  onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSefTqEa4eP7XRbKY1CLNAPELg6gAHwBfwH6zTz5NNVPUNef_Q/viewform', '_blank')"
+>
+  Daftar Sekarang
+</button>
+                    <button class="btn" onclick="closeModal()">Tutup</button>
+                </div>
+            </div>
+
+            <!-- Berita -->
+            <div
+                id="modal-berita"
+                class="modal"
+                role="document"
+                aria-labelledby="modalBeritaTitle"
+                tabindex="-1"
+            >
+                <div class="modal-header">
+                    <h3 id="modalBeritaTitle" class="modal-title">
+                        Baca Berita (Video) — Syarat Lengkap
+                    </h3>
+                    <div>
+                        <button class="close-btn" onclick="closeModal()">
+                            Tutup ✕
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Ketentuan:</strong></p>
+                    <ul>
+                        <li>Peserta tampil individu dalam format video.</li>
+                        <li>Durasi maksimal <strong>3 menit</strong>.</li>
+                        <li>
+                            Video dikirimkan ke panitia sebelum
+                            <strong>20 Oktober 2025</strong>.
+                        </li>
+                        <li>
+                            Berita yang dibawakan harus aktual dan belum pernah
+                            dilombakan sebelumnya.
+                        </li>
+                    </ul>
+                    <p class="modal-note">
+                        Fokus penyampaian pada poin penting, kejelasan data, dan
+                        penyajian yang menarik.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button
+  class="btn secondary daftar-btn"
+  data-category="Berita"
+  onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSeY11GSZM7TS1V8w4Q-bcyfZfpFVsEzqiPzuKEvpIvXUdgvig/viewform', '_blank')"
+>  Daftar Sekarang
+</button>
+                    <button class="btn" onclick="closeModal()">Tutup</button>
+                </div>
+            </div>
+
+            <!-- Drama -->
+            <div
+                id="modal-drama"
+                class="modal"
+                role="document"
+                aria-labelledby="modalDramaTitle"
+                tabindex="-1"
+            >
+                <div class="modal-header">
+                    <h3 id="modalDramaTitle" class="modal-title">
+                        Drama (Kelompok) — Syarat Lengkap
+                    </h3>
+                    <div>
+                        <button class="close-btn" onclick="closeModal()">
+                            Tutup ✕
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Ketentuan:</strong></p>
+                    <ul>
+                        <li>Maksimal 10 orang per kelompok.</li>
+                        <li>
+                            Pengumpulan naskah paling lambat
+                            <strong>15 Oktober 2025</strong>.
+                        </li>
+                        <li>
+                            Durasi penampilan antara
+                            <strong>15–20 menit</strong>.
+                        </li>
+                        <li>
+                            Wajib membuat video BTS (maksimal 1 menit) dan
+                            poster drama.
+                        </li>
+                        <li>
+                            Naskah harus merupakan adaptasi/kreasi — tidak
+                            meniru sepenuhnya karya lain.
+                        </li>
+                    </ul>
+                    <p class="modal-note">
+                        Pastikan kelompok menyiapkan aksesoris dan kostum sesuai
+                        tema.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button
+  class="btn secondary daftar-btn"
+  data-category="Berita"
+  onclick="window.open('https://docs.google.com/forms/u/2/d/e/1FAIpQLSdClmPITv4eun5XZPdyJqu0Ko8ai2DJ96z6ciGr11nOYjbXzw/viewform', '_blank')"
+>  Daftar Sekarang
+</button>
+                    <button class="btn" onclick="closeModal()">Tutup</button>
+                </div>
+            </div>
+
+            <!-- Story Telling -->
+            <div
+                id="modal-story"
+                class="modal"
+                role="document"
+                aria-labelledby="modalStoryTitle"
+                tabindex="-1"
+            >
+                <div class="modal-header">
+                    <h3 id="modalStoryTitle" class="modal-title">
+                        Story Telling — Syarat Lengkap
+                    </h3>
+                    <div>
+                        <button class="close-btn" onclick="closeModal()">
+                            Tutup ✕
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Ketentuan:</strong></p>
+                    <ul>
+                        <li>
+                            Peserta tampil individu dengan durasi
+                            <strong>5–7 menit</strong>.
+                        </li>
+                        <li>Tidak boleh menggunakan teks selama penampilan.</li>
+                        <li>
+                            Boleh menggunakan aksesoris yang mendukung cerita
+                            (monolog).
+                        </li>
+                    </ul>
+                    <p class="modal-note">
+                        Tema:
+                        <em>Bahasa Indonesia Berdaulat, Indonesia Maju</em>.
+                        Perhatikan tempo dan ekspresi agar cerita hidup.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button
+  class="btn secondary daftar-btn"
+  data-category="Berita"
+  onclick="window.open('https://forms.gle/CnFmb4HxGbn19qdA9', '_blank')"
+>  Daftar Sekarang
+</button>
+                    <button class="btn" onclick="closeModal()">Tutup</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="script.js" type="text/javascript" charset="utf-8"></script>
+    </body>
+</html>
