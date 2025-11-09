@@ -13,10 +13,10 @@
   </style>
 </head>
 
-<body class="bg-gray-100 font-sans text-gray-900 min-h-screen">
+<body class="bg-gray-100 font-sans text-gray-900 min-h-screen"
+x-data="mainApp()" x-init="init()">
   <!-- LOGIN PAGE -->
-  <div x-show="!loggedIn" x-transition x-clock
-       class="flex flex-col items-center justify-center min-h-screen px-4">
+  <div x-show="!loggedIn" x-transition x-cloak class="flex flex-col items-center justify-center min-h-screen px-4">
     <div class="bg-white w-full max-w-sm p-6 rounded-xl shadow space-y-4">
       <h1 class="text-center text-2xl font-bold text-primary">🔒 Admin Login</h1>
       <div>
@@ -34,8 +34,8 @@
   </div>
 
   <!-- DASHBOARD -->
-  <template x-if="loggedIn">
-    <div x-data="adminApp()" x-init="loadData()" x-cloak class="w-full min-h-screen flex flex-col">
+<template x-if="loggedIn">
+  <div x-data="adminApp()" x-init="loadData()" x-cloak class="w-full min-h-screen flex flex-col">
       
       <!-- HEADER -->
       <header class="sticky top-0 bg-white border-b shadow-sm p-4 flex flex-wrap justify-between items-center z-10">
@@ -43,9 +43,9 @@
         <div class="flex flex-wrap gap-2">
           <button @click="saveData"
                   class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 text-sm sm:text-base">💾 Simpan</button>
-          <button @click="$root.logout()" 
+          <button @click="logout()" 
                   class="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600 text-sm sm:text-base">
-                    Keluar
+            Keluar
           </button>
         </div>
       </header>
@@ -161,104 +161,97 @@
   </template>
 
   <script>
-    function mainApp() {
-      return {
-        loggedIn: localStorage.getItem("literasi_login") === "true",
-        loginError: false,
-        login: { username: "", password: "" },
-        encryptedUser: "bGl0ZXJhc2k=", // literasi
-        encryptedPass: "bGl0ZXJhc2kgc3Vrc2Vz", // literasi sukses
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('mainApp', () => ({
+      loggedIn: false,
+      loginError: false,
+      login: { username: '', password: '' },
+      encryptedUser: 'bGl0ZXJhc2k=', // literasi
+      encryptedPass: 'bGl0ZXJhc2kgc3Vrc2Vz', // literasi sukses
   
-        checkLogin() {
-          if (
-            atob(this.encryptedUser) === this.login.username &&
-            atob(this.encryptedPass) === this.login.password
-          ) {
-            this.loggedIn = true;
-            localStorage.setItem("literasi_login", "true");
-            this.loginError = false;
-          } else {
-            this.loginError = true;
-          }
-        },
+      init() {
+        // Cek login status dari localStorage saat halaman dimuat
+        this.loggedIn = localStorage.getItem('literasi_login') === 'true';
+      },
   
-        logout() {
-          // hapus localStorage dan ubah reactive state
-          localStorage.removeItem("literasi_login");
-          this.loggedIn = false;
-        },
-      };
-    }
+      checkLogin() {
+        const user = atob(this.encryptedUser);
+        const pass = atob(this.encryptedPass);
   
-    function adminApp() {
-      return {
-        jsonBinId: "6910521543b1c97be9a23370",
-        apiKey: "$2a$10$7imEXBjuQHy3kKGZyBZccumUxrrVRKqAlShV.sIjByFJhLXona.f6",
-        data: { events: [] },
+        if (this.login.username === user && this.login.password === pass) {
+          localStorage.setItem('literasi_login', 'true');
+          this.loggedIn = true;
+          this.loginError = false;
+        } else {
+          this.loginError = true;
+        }
+      },
   
-        async loadData() {
-          try {
-            const res = await fetch(
-              `https://api.jsonbin.io/v3/b/${this.jsonBinId}/latest`,
-              { headers: { "X-Master-Key": this.apiKey } }
-            );
-            const json = await res.json();
-            this.data = json.record;
-          } catch (e) {
-            alert("❌ Gagal memuat data: " + e.message);
-          }
-        },
+      logout() {
+        localStorage.removeItem('literasi_login');
+        this.loggedIn = false;
   
-        async saveData() {
-          try {
-            this.data.events = this.data.events.map((ev) => ({
-              ...ev,
-              categories: ev.categories.map((c) => ({
-                ...c,
-                rules:
-                  typeof c.rules === "string"
-                    ? c.rules.split(",").map((r) => r.trim())
-                    : c.rules,
-                criteria:
-                  typeof c.criteria === "string"
-                    ? c.criteria.split(",").map((r) => r.trim())
-                    : c.criteria,
-              })),
-            }));
+        // Tambahan penting: reset ulang Alpine state
+        setTimeout(() => {
+          Alpine.store('session', { loggedIn: false });
+        }, 0);
+      }
+    }));
   
-            const res = await fetch(`https://api.jsonbin.io/v3/b/${this.jsonBinId}`, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                "X-Master-Key": this.apiKey,
-              },
-              body: JSON.stringify(this.data),
-            });
+    Alpine.store('session', { loggedIn: localStorage.getItem('literasi_login') === 'true' });
   
-            if (res.ok) alert("✅ Data berhasil disimpan!");
-            else alert("❌ Gagal menyimpan data.");
-          } catch (e) {
-            alert("❌ Error: " + e.message);
-          }
-        },
+    Alpine.data('adminApp', () => ({
+      jsonBinId: "6910521543b1c97be9a23370",
+      apiKey: "$2a$10$7imEXBjuQHy3kKGZyBZccumUxrrVRKqAlShV.sIjByFJhLXona.f6",
+      data: { events: [] },
   
-        addEvent() {
-          this.data.events.push({
-            title: "",
-            theme: "",
-            whatsapp: "",
-            last_update: "",
-            general_rules: [],
-            registration: { fee: "", requirements: [], link: "" },
-            prizes: [],
-            files: [],
-            dates: {},
-            categories: [],
-            panitia: [],
+      async loadData() {
+        if (!localStorage.getItem('literasi_login')) return;
+        try {
+          const res = await fetch(`https://api.jsonbin.io/v3/b/${this.jsonBinId}/latest`, {
+            headers: { "X-Master-Key": this.apiKey }
           });
-        },
-      };
-    }
+          const json = await res.json();
+          this.data = json.record;
+        } catch (e) {
+          alert('❌ Gagal memuat data: ' + e.message);
+        }
+      },
+  
+      async saveData() {
+        try {
+          const res = await fetch(`https://api.jsonbin.io/v3/b/${this.jsonBinId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Master-Key': this.apiKey
+            },
+            body: JSON.stringify(this.data)
+          });
+          if (res.ok) alert('✅ Data berhasil disimpan!');
+          else alert('❌ Gagal menyimpan data.');
+        } catch (e) {
+          alert('❌ Error: ' + e.message);
+        }
+      },
+  
+      addEvent() {
+        this.data.events.push({
+          title: '',
+          theme: '',
+          whatsapp: '',
+          last_update: '',
+          general_rules: [],
+          registration: { fee: '', requirements: [], link: '' },
+          prizes: [],
+          files: [],
+          dates: {},
+          categories: [],
+          panitia: []
+        });
+      }
+    }));
+  });
   </script>
 </body>
-  </html>
+                    </html>
