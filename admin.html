@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="id" x-data="mainApp()">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🛠️ Admin Panel — Booklet Literasi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+  <style>
+    .text-primary { color: #0b5fab; }
+    .bg-primary { background-color: #0b5fab; }
+  </style>
+</head>
+
+<body class="bg-gray-100 font-sans text-gray-900 min-h-screen">
+  <!-- LOGIN PAGE -->
+  <div x-show="!loggedIn" x-transition
+       class="flex flex-col items-center justify-center min-h-screen px-4">
+    <div class="bg-white w-full max-w-sm p-6 rounded-xl shadow space-y-4">
+      <h1 class="text-center text-2xl font-bold text-primary">🔒 Admin Login</h1>
+      <div>
+        <label class="block text-sm">Username</label>
+        <input x-model="login.username" class="w-full border p-2 rounded">
+      </div>
+      <div>
+        <label class="block text-sm">Password</label>
+        <input x-model="login.password" type="password" class="w-full border p-2 rounded">
+      </div>
+      <button @click="checkLogin"
+        class="w-full bg-primary text-white py-2 rounded-lg hover:bg-blue-700 transition">Masuk</button>
+      <p x-show="loginError" class="text-red-600 text-sm text-center">❌ Username atau password salah!</p>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <template x-if="loggedIn">
+    <div x-data="adminApp()" x-init="loadData()" x-cloak class="w-full min-h-screen flex flex-col">
+      
+      <!-- HEADER -->
+      <header class="sticky top-0 bg-white border-b shadow-sm p-4 flex flex-wrap justify-between items-center z-10">
+        <h2 class="text-xl sm:text-2xl font-bold text-primary mb-2 sm:mb-0">📘 Panel Admin Literasi</h2>
+        <div class="flex flex-wrap gap-2">
+          <button @click="saveData"
+                  class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 text-sm sm:text-base">💾 Simpan</button>
+          <button @click="$root.logout()"
+                  class="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600 text-sm sm:text-base">Keluar</button>
+        </div>
+      </header>
+
+      <!-- CONTENT AREA -->
+      <main class="flex-1 overflow-y-auto px-4 sm:px-8 py-6 space-y-10">
+        <template x-for="(ev, i) in data.events" :key="i">
+          <div class="border border-gray-200 rounded-lg p-4 sm:p-6 bg-gray-50 space-y-4">
+            <div class="flex flex-wrap justify-between items-center">
+              <h3 class="font-semibold text-lg text-primary" x-text="ev.title || 'Event Baru'"></h3>
+              <button @click="data.events.splice(i,1)" class="text-red-600 text-sm hover:underline mt-2 sm:mt-0">Hapus Event</button>
+            </div>
+
+            <!-- Event Info -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <input x-model="ev.title" class="border rounded p-2" placeholder="Judul Event">
+              <input x-model="ev.theme" class="border rounded p-2" placeholder="Tema Event">
+              <input x-model="ev.whatsapp" class="border rounded p-2" placeholder="Link WhatsApp">
+              <input x-model="ev.last_update" type="date" class="border rounded p-2">
+            </div>
+
+            <!-- Aturan Umum -->
+            <div>
+              <h4 class="font-semibold text-primary mt-4">📘 Aturan Umum</h4>
+              <template x-for="(r, ri) in ev.general_rules" :key="ri">
+                <div class="flex flex-col sm:flex-row gap-2 mt-1">
+                  <input x-model="ev.general_rules[ri]" class="flex-1 border p-2 rounded" placeholder="Tulis aturan umum">
+                  <button @click="ev.general_rules.splice(ri,1)" class="text-red-600 text-sm">✕</button>
+                </div>
+              </template>
+              <button @click="ev.general_rules.push('')" class="mt-2 bg-primary text-white px-3 py-1 rounded text-sm">+ Tambah Aturan</button>
+            </div>
+
+            <!-- Ketentuan Pendaftaran -->
+            <div>
+              <h4 class="font-semibold text-primary mt-4">📝 Ketentuan Pendaftaran</h4>
+              <input x-model="ev.registration.fee" class="border rounded p-2 w-full" placeholder="Biaya pendaftaran">
+              <template x-for="(req, ri) in ev.registration.requirements" :key="ri">
+                <div class="flex flex-col sm:flex-row gap-2 mt-1">
+                  <input x-model="ev.registration.requirements[ri]" class="flex-1 border p-2 rounded" placeholder="Syarat pendaftaran">
+                  <button @click="ev.registration.requirements.splice(ri,1)" class="text-red-600 text-sm">✕</button>
+                </div>
+              </template>
+              <button @click="ev.registration.requirements.push('')" class="mt-2 bg-primary text-white px-3 py-1 rounded text-sm">+ Tambah Syarat</button>
+              <!-- <input x-model="ev.registration.link" class="border rounded p-2 w-full mt-2" placeholder="Link formulir"> -->
+            </div>
+
+            <!-- Hadiah -->
+            <div>
+              <h4 class="font-semibold text-primary mt-4">🏆 Hadiah & Penghargaan</h4>
+              <template x-for="(p, pi) in ev.prizes" :key="pi">
+                <div class="flex flex-col sm:flex-row gap-2 mt-1">
+                  <input x-model="ev.prizes[pi]" class="flex-1 border p-2 rounded" placeholder="Hadiah">
+                  <button @click="ev.prizes.splice(pi,1)" class="text-red-600 text-sm">✕</button>
+                </div>
+              </template>
+              <button @click="ev.prizes.push('')" class="mt-2 bg-primary text-white px-3 py-1 rounded text-sm">+ Tambah Hadiah</button>
+            </div>
+
+            <!-- File -->
+            <div>
+              <h4 class="font-semibold text-primary mt-4">📂 File Pendukung</h4>
+              <template x-for="(f, fi) in ev.files" :key="fi">
+                <div class="grid sm:grid-cols-2 gap-2 mt-1">
+                  <input x-model="ev.files[fi].name" class="border p-2 rounded" placeholder="Nama file">
+                  <input x-model="ev.files[fi].url" class="border p-2 rounded" placeholder="URL file">
+                  <button @click="ev.files.splice(fi,1)" class="text-red-600 text-sm">✕</button>
+                </div>
+              </template>
+              <button @click="ev.files.push({ name:'', url:'' })" class="mt-2 bg-primary text-white px-3 py-1 rounded text-sm">+ Tambah File</button>
+            </div>
+
+            <!-- Lomba -->
+            <div>
+              <h4 class="font-semibold text-primary mt-4">🎭 Cabang Lomba</h4>
+              <template x-for="(cat, ci) in ev.categories" :key="ci">
+                <div class="border p-3 bg-white rounded-lg mt-2 space-y-2">
+                  <div class="flex justify-between items-center">
+                    <strong x-text="cat.name || 'Cabang Baru'"></strong>
+                    <button @click="ev.categories.splice(ci,1)" class="text-red-600 text-sm">✕</button>
+                  </div>
+                  <input x-model="cat.name" class="border p-2 rounded w-full" placeholder="Nama Lomba">
+                  <input x-model="cat.type" class="border p-2 rounded w-full" placeholder="Tipe (puisi, pidato, dll)">
+                  <textarea x-model="cat.desc" class="border p-2 rounded w-full" rows="2" placeholder="Deskripsi Lomba"></textarea>
+                  <textarea x-model="cat.rules" class="border p-2 rounded w-full" rows="2" placeholder="Pisahkan peraturan dengan koma"></textarea>
+                  <textarea x-model="cat.criteria" class="border p-2 rounded w-full" rows="2" placeholder="Pisahkan kriteria dengan koma"></textarea>
+                  <input x-model="cat.link" class="border p-2 rounded w-full" placeholder="Link pendaftaran">
+                </div>
+              </template>
+              <button @click="ev.categories.push({name:'',type:'',desc:'',rules:'',criteria:'',link:'',extras:{}})" class="mt-2 bg-primary text-white px-3 py-1 rounded text-sm">+ Tambah Cabang</button>
+            </div>
+
+            <!-- Panitia -->
+            <div>
+              <h4 class="font-semibold text-primary mt-4">📞 Panitia</h4>
+              <template x-for="(p, pi) in ev.panitia" :key="pi">
+                <div class="flex flex-col sm:flex-row gap-2 mt-1">
+                  <input x-model="p.name" class="flex-1 border p-2 rounded" placeholder="Nama Panitia">
+                  <input x-model="p.phone" class="flex-1 border p-2 rounded" placeholder="Nomor WhatsApp (628...)">
+                  <button @click="ev.panitia.splice(pi,1)" class="text-red-600 text-sm">✕</button>
+                </div>
+              </template>
+              <button @click="ev.panitia.push({ name:'', phone:'' })" class="mt-2 bg-primary text-white px-3 py-1 rounded text-sm">+ Tambah Panitia</button>
+            </div>
+          </div>
+        </template>
+
+        <div class="text-center">
+          <button @click="addEvent" class="bg-primary text-white px-5 py-2 rounded-lg hover:bg-blue-700">+ Tambah Event Baru</button>
+        </div>
+      </main>
+    </div>
+  </template>
+
+  <script>
+    function mainApp() {
+      return {
+        loggedIn: localStorage.getItem("literasi_login") === "true",
+        loginError: false,
+        login: { username: "", password: "" },
+        encryptedUser: "bGl0ZXJhc2k=", // literasi
+        encryptedPass: "bGl0ZXJhc2kgc3Vrc2Vz", // literasi sukses
+        checkLogin() {
+          if (atob(this.encryptedUser) === this.login.username && atob(this.encryptedPass) === this.login.password) {
+            this.loggedIn = true;
+            localStorage.setItem("literasi_login", "true");
+          } else this.loginError = true;
+        },
+        logout() {
+          localStorage.removeItem("literasi_login");
+          this.loggedIn = false;
+        }
+      };
+    }
+
+    function adminApp() {
+      return {
+        jsonBinId: "6910521543b1c97be9a23370",
+        apiKey: "$2a$10$7imEXBjuQHy3kKGZyBZccumUxrrVRKqAlShV.sIjByFJhLXona.f6",
+        data: { events: [] },
+        async loadData() {
+          try {
+            const res = await fetch(`https://api.jsonbin.io/v3/b/${this.jsonBinId}/latest`, {
+              headers: { "X-Master-Key": this.apiKey }
+            });
+            const json = await res.json();
+            this.data = json.record;
+          } catch (e) {
+            alert("❌ Gagal memuat data: " + e.message);
+          }
+        },
+        async saveData() {
+          try {
+            this.data.events = this.data.events.map(ev => ({
+              ...ev,
+              categories: ev.categories.map(c => ({
+                ...c,
+                rules: typeof c.rules === 'string' ? c.rules.split(',').map(r => r.trim()) : c.rules,
+                criteria: typeof c.criteria === 'string' ? c.criteria.split(',').map(r => r.trim()) : c.criteria
+              }))
+            }));
+            const res = await fetch(`https://api.jsonbin.io/v3/b/${this.jsonBinId}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json", "X-Master-Key": this.apiKey },
+              body: JSON.stringify(this.data)
+            });
+            if (res.ok) alert("✅ Data berhasil disimpan!");
+            else alert("❌ Gagal menyimpan data.");
+          } catch (e) {
+            alert("❌ Error: " + e.message);
+          }
+        },
+        addEvent() {
+          this.data.events.push({
+            title: "", theme: "", whatsapp: "", last_update: "",
+            general_rules: [], registration: { fee: "", requirements: [], link: "" },
+            prizes: [], files: [], dates: {}, categories: [], panitia: []
+          });
+        }
+      };
+    }
+  </script>
+</body>
+          </html>
